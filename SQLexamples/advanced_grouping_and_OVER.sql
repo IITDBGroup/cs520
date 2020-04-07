@@ -3,10 +3,59 @@
 -- * (this was run in PostgresSQL)
 -- ********************************************************************************
 
+DROP TABLE IF EXISTS saltime;
+
+CREATE TABLE saltime (
+  sales INT,
+  y INT,
+  mon INT
+  );
+
+INSERT INTO saltime VALUES (13, 2014, 1);
+INSERT INTO saltime VALUES (26, 2014, 1);
+INSERT INTO saltime VALUES (15, 2014, 2);
+INSERT INTO saltime VALUES (5, 2014, 2);
+INSERT INTO saltime VALUES (100, 2015, 1);
+INSERT INTO saltime VALUES (50, 2015, 1);
+INSERT INTO saltime VALUES (200, 2015, 2);
+
+-- write a SINGLE query that returns total sales, sales per year, and sales per year, month
+
+SELECT sum(sales) AS ttl, NULL::int AS y, NULL::int AS m,
+       0 AS grp_year, 0 AS grp_mon
+  FROM saltime
+UNION ALL
+SELECT sum(sales) AS ttl, y, NULL::int AS mon,
+       1 AS grp_year, 0 AS grp_mon
+  FROM saltime GROUP BY y
+UNION ALL
+SELECT sum(sales) AS ttl, y, mon,
+       1 AS grp_year, 1 AS grp_mon
+  FROM saltime GROUP BY y, mon;
+
+-- null values
+INSERT INTO saltime VALUES (200, 2015, NULL);
+
+-- with GROUPING SETS
+SELECT sum(sales) AS ttl, y, mon
+  FROM saltime
+ GROUP BY GROUPING SETS ((), (y), (y,mon));
+
+SELECT sum(sales) AS ttl, y, mon,
+       1 - grouping(y) AS grp_year, 1 - grouping(mon) AS grp_mon
+  FROM saltime
+ GROUP BY GROUPING SETS ((), (y), (y,mon));
+
+SELECT sum(sales) AS ttl, y, mon,
+       1 - grouping(y) AS grp_year, 1 - grouping(mon) AS grp_mon
+  FROM saltime
+GROUP BY ROLLUP(y, mon);
 
 -- ********************************************************************************
 -- * EXAMPLE DATA
 -- ********************************************************************************
+
+DROP TABLE IF EXISTS sal;
 
 CREATE TABLE sal (shop TEXT, sales INT, month INT);
 
@@ -15,6 +64,11 @@ INSERT INTO sal VALUES ('chicago', 5 , 2);
 INSERT INTO sal VALUES ('chicago', 18 , 3);
 
 COMMIT;
+
+-- ********************************************************************************
+-- * WHY WINDOW FUNCTIONS?
+-- ********************************************************************************
+
 
 SELECT * FROM sal;
 
@@ -47,6 +101,10 @@ SELECT sum(sales), month FROM sal GROUP BY month;
 --   11 |     1
 -- (3 rows)
 
+SELECT shop, month, sales, sum(sales) OVER (PARTITION BY shop
+                                            ORDER BY month) AS rollsum
+  FROM sal
+ORDER BY shop, month;
 
 
 
@@ -54,9 +112,14 @@ SELECT sum(sales), month FROM sal GROUP BY month;
 -- * WINDOW FUNCTIONS
 -- ********************************************************************************
 
+-- SELECT sum(sales) OVER (ORDER BY month) AS s , month FROM sal;
+
 -- compute an accumulative sum ordering by month without using window functions
 WITH msal AS (SELECT sum(sales) AS s, month FROM sal GROUP BY month)
-SELECT sum(a.s), b.month FROM msal a, msal b WHERE a.month <= b.month GROUP BY b.month;
+SELECT sum(a.s), b.month
+  FROM msal a, msal b
+ WHERE a.month <= b.month
+ GROUP BY b.month;
 
 --  Sum | month
 -- -----+-------
@@ -200,3 +263,24 @@ SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS gr
 --  33 |       |        1 |       0
 --  21 |       |        1 |       0
 -- (14 rows)
+
+-- ********************************************************************************
+-- order dependent aggregation functions
+
+-- rank
+SELECT shop, month, rank() OVER (ORDER BY month DESC)
+FROM sal;
+
+-- dense_rank
+SELECT shop, month, row_rank() OVER (ORDER BY month DESC)
+FROM sal;
+
+-- first_value
+SELECT shop, month, first_value(month) OVER (ORDER BY month)
+FROM sal;
+
+-- access first element of window
+SELECT shop, month,
+sum(month) OVER (ORDER BY month RANGE BETWEEN 1 PRECEDING AND CURRENT ROW) AS prepluscur,
+       first_value(month) OVER (ORDER BY month RANGE BETWEEN 1 PRECEDING AND CURRENT ROW) AS fmon
+FROM sal;
