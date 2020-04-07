@@ -1,7 +1,14 @@
 # cs520
 Repository for CS520 course with links for tools and additional information, and links to student curation projects.
 
-# Integration, Cleaning, Curation Tools
+# Examples
+
+- [Datalog with DLV](datalog_examples/dlv/README.md)
+  - [Datalog code](datalog_examples/dlv/train.dlv)
+- [Advanced grouping in SQL](advanced_grouping.sql)
+- [Window functions in SQL](advanced_grouping_and_OVER.sql)
+
+# Integration, Cleaning, Curation, Big Data Tools
 
 ## Datalog Engines
 
@@ -25,7 +32,7 @@ Repository for CS520 course with links for tools and additional information, and
 ## Tools that Cover Several Tasks
 
 * **OpenRefine**: http://openrefine.org/
-* **Big Gorilla**:
+* **Big Gorilla**: https://www.biggorilla.org/
 
 ## ETL Workflow Systems
 
@@ -35,22 +42,20 @@ Repository for CS520 course with links for tools and additional information, and
 
 ### Dataflow Engines
 
-* **Hadoop MapReduce**
-* **Spark**
-* **Flink** [https://flink.apache.org/](https://flink.apache.org/)
+* **Hadoop MapReduce**: https://hadoop.apache.org/
+* **Spark**: https://spark.apache.org/
+* **Flink**: [https://flink.apache.org/](https://flink.apache.org/)
 
-## Storage
+### Storage
 
-* **HDFS**
-* **HTable**
-* **Cassandra**
-* **MongoDB**
+* **HDFS**: https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html
+* **HTable**: https://hbase.apache.org/
+* **Cassandra**: http://cassandra.apache.org/
+* **MongoDB**: https://www.mongodb.com/
 
-## High-level Language Support
+### High-level Language Support
 
-* **Hive**
-* **SparkSQL**
-
+* **Hive**: https://hive.apache.org/
+* **SparkSQL**: https://spark.apache.org/
 
 # Student Projects
-
