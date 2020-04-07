@@ -5,8 +5,7 @@ Repository for CS520 course with links for tools and additional information, and
 
 - [Datalog with DLV](datalog_examples/dlv/README.md)
   - [Datalog code](datalog_examples/dlv/train.dlv)
-- [Advanced grouping in SQL](advanced_grouping.sql)
-- [Window functions in SQL](advanced_grouping_and_OVER.sql)
+- [Advanced grouping and window functions in SQL](advanced_grouping_and_OVER.sql)
 
 # Integration, Cleaning, Curation, Big Data Tools
 

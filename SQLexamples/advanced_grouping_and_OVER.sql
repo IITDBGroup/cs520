@@ -1,3 +1,13 @@
+-- ********************************************************************************
+-- * DATAWAREHOUSE INSPIRED SQL FEATURES
+-- * (this was run in PostgresSQL)
+-- ********************************************************************************
+
+
+-- ********************************************************************************
+-- * EXAMPLE DATA
+-- ********************************************************************************
+
 CREATE TABLE sal (shop TEXT, sales INT, month INT);
 
 INSERT INTO sal VALUES ('chicago', 10 , 1);
@@ -8,7 +18,7 @@ COMMIT;
 
 SELECT * FROM sal;
 
---  shop   | sales | month 
+--  shop   | sales | month
 -- ---------+-------+-------
 --  chicago |    10 |     1
 --  chicago |     5 |     2
@@ -17,7 +27,7 @@ SELECT * FROM sal;
 
 SELECT sum(sales), month FROM sal GROUP BY month;
 
---  sum | month 
+--  sum | month
 -- -----+-------
 --    5 |     2
 --   18 |     3
@@ -30,7 +40,7 @@ INSERT INTO sal VALUES ('schaumburg', 3 , 3);
 
 SELECT sum(sales), month FROM sal GROUP BY month;
 
---  sum | month 
+--  sum | month
 -- -----+-------
 --    7 |     2
 --   21 |     3
@@ -48,7 +58,7 @@ SELECT sum(sales), month FROM sal GROUP BY month;
 WITH msal AS (SELECT sum(sales) AS s, month FROM sal GROUP BY month)
 SELECT sum(a.s), b.month FROM msal a, msal b WHERE a.month <= b.month GROUP BY b.month;
 
---  Sum | month 
+--  Sum | month
 -- -----+-------
 --   18 |     2
 --   39 |     3
@@ -63,22 +73,22 @@ SELECT sum(a.s), b.month FROM msal a, msal b WHERE a.month <= b.month GROUP BY b
 
 SELECT sum(sales) AS s, NULL AS month FROM sal UNION ALL (SELECT sum(sales) AS s, month FROM sal GROUP BY month);
 
---  s  | month 
+--  s  | month
 -- ----+-------
---  39 |      
+--  39 |
 --   7 |     2
 --  21 |     3
 --  11 |     1
 -- (4 rows)
 
--- this representation is ambiguous if the group-by attribute(s) have NULL values  
+-- this representation is ambiguous if the group-by attribute(s) have NULL values
 INSERT INTO sal VALUES ('schaumburg', 15 , NULL);
 SELECT sum(sales) AS s, NULL AS month FROM sal UNION ALL (SELECT sum(sales) AS s, month FROM sal GROUP BY month)                                                                                       ;
 
---  s  | month 
+--  s  | month
 -- ----+-------
---  54 |      
---  15 |      
+--  54 |
+--  15 |
 --   7 |     2
 --  21 |     3
 --  11 |     1
@@ -87,7 +97,7 @@ SELECT sum(sales) AS s, NULL AS month FROM sal UNION ALL (SELECT sum(sales) AS s
 -- solution: create an additional attribute that stores the grouping that was used
 SELECT sum(sales) AS s, NULL AS month, '()' AS grp FROM sal UNION ALL (SELECT sum(sales) AS s, month, '(month)' AS grp FROM sal GROUP BY month)                                                        ;
 
---  s  | month |   grp   
+--  s  | month |   grp
 -- ----+-------+---------
 --  54 |       | ()
 --  15 |       | (month)
@@ -100,7 +110,7 @@ SELECT sum(sales) AS s, NULL AS month, '()' AS grp FROM sal UNION ALL (SELECT su
 
 SELECT sum(sales) AS s, NULL AS month, 0 AS grpMonth FROM sal UNION ALL (SELECT sum(sales) AS s, month, 1 AS grpMonth FROM sal GROUP BY month)                                                         ;
 
---  s  | month | grpmonth 
+--  s  | month | grpmonth
 -- ----+-------+----------
 --  54 |       |        0
 --  15 |       |        1
@@ -113,10 +123,10 @@ SELECT sum(sales) AS s, NULL AS month, 0 AS grpMonth FROM sal UNION ALL (SELECT 
 -- the GROUPING SETS simplifies the specification of such queries
 SELECT sum(sales) AS s, month FROM sal GROUP BY GROUPING SETS ((), (month));
 
---  s  | month 
+--  s  | month
 -- ----+-------
---  54 |      
---  15 |      
+--  54 |
+--  15 |
 --   7 |     2
 --  21 |     3
 --  11 |     1
@@ -125,7 +135,7 @@ SELECT sum(sales) AS s, month FROM sal GROUP BY GROUPING SETS ((), (month));
 -- grouping(attr) resolves the ambiguity mentioned above
 SELECT sum(sales) AS s, month, grouping(month) AS grpmonth FROM sal GROUP BY GROUPING SETS ((), (month));
 
---  s  | month | grpmonth 
+--  s  | month | grpmonth
 -- ----+-------+----------
 --  54 |       |        1
 --  15 |       |        0
@@ -137,7 +147,7 @@ SELECT sum(sales) AS s, month, grouping(month) AS grpmonth FROM sal GROUP BY GRO
 
 SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS grpshop FROM sal GROUP BY GROUPING SETS (()
 
---  s  | month | grpmonth | grpshop 
+--  s  | month | grpmonth | grpshop
 -- ----+-------+----------+---------
 --  54 |       |        1 |       1
 --  15 |       |        0 |       1
@@ -151,7 +161,7 @@ SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS gr
 
 SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS grpshop FROM sal GROUP BY GROUPING SETS ((), (month), (shop), (month, shop));
 
---  s  | month | grpmonth | grpshop 
+--  s  | month | grpmonth | grpshop
 -- ----+-------+----------+---------
 --  54 |       |        1 |       1
 --  15 |       |        0 |       0
@@ -173,7 +183,7 @@ SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS gr
 -- CUBE groups on all subsets of the provided set of attributes
 SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS grpshop FROM sal GROUP BY CUBE (month, shop);
 
---  s  | month | grpmonth | grpshop 
+--  s  | month | grpmonth | grpshop
 -- ----+-------+----------+---------
 --  54 |       |        1 |       1
 --  15 |       |        0 |       0
@@ -190,4 +200,3 @@ SELECT sum(sales) AS s, month, grouping(month) AS grpmonth, grouping(shop) AS gr
 --  33 |       |        1 |       0
 --  21 |       |        1 |       0
 -- (14 rows)
-
