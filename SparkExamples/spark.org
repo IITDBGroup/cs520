@@ -22,12 +22,13 @@ myints.show()
 #+RESULTS:
 #+begin_example
 USING JAVA HOME /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-20/04/16 22:19:24 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+20/04/21 09:44:26 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-Spark context Web UI available at http://192.168.0.7:4040
-Spark context available as 'sc' (master = local[*], app id = local-1587093569446).
+20/04/21 09:44:30 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+Spark context Web UI available at http://192.168.0.7:4041
+Spark context available as 'sc' (master = local[*], app id = local-1587480270585).
 Spark session available as 'spark'.
 Welcome to
       ____              __
@@ -36,11 +37,11 @@ Welcome to
    /___/ .__/\_,_/_/ /_/\_\   version 2.4.5
       /_/
 
-Using Scala version 2.11.12 (OpenJDK 64-Bit Server VM, Java 1.8.0_242)
+Using Scala version 2.11.12 (OpenJDK 64-Bit Server VM, Java 1.8.0_252)
 Type in expressions to have them evaluated.
 Type :help for more information.
 
-scala> Loading /var/folders/f7/xnz8v_b13td37s3k4w8t5j2h0000gn/T/babel-5pHi2i/spark-shell-vars-WlD2cl.scala...
+scala> Loading /var/folders/f7/xnz8v_b13td37s3k4w8t5j2h0000gn/T/babel-MriqEC/spark-shell-vars-aMz8R3.scala...
 myints: org.apache.spark.sql.Dataset[Int] = [value: int]
 +-----+
 |value|
