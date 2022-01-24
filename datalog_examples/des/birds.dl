@@ -1,0 +1,19 @@
+% birds and their flight capabilities
+bird(penguin).
+bird(eagle).
+bird(sparrow).
+
+canfly(eagle).
+canfly(sparrow).
+
+cankill(penguin,sparrow).
+cankill(eagle,penguin).
+cankill(eagle,sparrow).
+
+% can all birds fly?
+existscannotflybird :- bird(X), not canfly(X).
+allbirdsfly :- not existscannotflybird.
+
+% top of the food chain
+notalpha(X) :- bird(X), cankill(_,X).
+alphabird(X) :- bird(X), not notalpha(X).

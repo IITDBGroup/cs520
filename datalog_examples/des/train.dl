@@ -1,0 +1,18 @@
+train(chicago, schaumburg).
+train(schaumburg, ohare).
+train(chicago, indianapolis).
+train(indianapolis, buffalo).
+
+% connections with an intermediate hop
+twohop(X,Y) :- train(X,Z), train(Z,Y).
+
+% pairs of cities that are directly or indirectly connected
+connected(X,Y) :- connected(X,Z), train(Z,Y).
+connected(X,Y) :- connected(Y,X).
+connected(X,Y) :- train(X,Y).
+
+% cities with no outbound train connections
+city(X) :- train(X,_).
+city(Y) :- train(_,Y).
+outbound(X) :- train(X,_).
+noOutbound(X) :- city(X), not outbound(X).
