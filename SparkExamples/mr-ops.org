@@ -1,0 +1,33 @@
+#+TITLE: MapReduce Operator Implementations
+
+* Aggregation without group-by
+
+- *map*:
+  - (name, salary) -> {(1, salary)}
+- *reduce*:
+  - input: (1, [salary_1, ..., salary_n]) ->
+  - output: {(1, sum(salary_1, ..., salary_n))}
+
+* Aggregation with group-by
+
+$\gamma_{G; f(a)}(R)$
+
+$\gamma_{dept;sum(salary)}(R)$
+
+- *map*:
+  - (name, (salary,dept)) -> {(dept, salary)}
+- *reduce*:
+  - input: (dept, [salary_1, ..., salary_n]) ->
+  - input: {(dept, sum(salary_1, ..., salary_n))}
+
+* Join
+
+$R \bowtie_{a=b} S$
+
+- *map*:
+  - input R: (rid, (a,c)) -> {(a, ("R", c))}
+- *map*:
+  - input S: (sid, (b,d)) -> {(b, ("S", d))}
+- *reduce*:
+  - input: (joinval, [("R", c1), ("S",d1), ("R", c2), ....]
+  - output: use standard join

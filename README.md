@@ -3,9 +3,10 @@ Repository for CS520 course with links for tools and additional information, and
 
 # Examples
 
-- [Datalog with DLV](datalog_examples/dlv/README.md)
-  - [Datalog code](datalog_examples/dlv/train.dlv)
-- [Advanced grouping and window functions in SQL](advanced_grouping_and_OVER.sql)
+- [Datalog with DLV and DES](datalog_examples/README.md)
+- [Advanced grouping and window functions in SQL](SQLexamples/advanced_grouping_and_OVER.sql)
+- [Snowflake and Star schemas](SQLexamples/dataware_house_schemas.sql)
+- [Examples with Spark](SparkExamples/spark.org)
 
 # Integration, Cleaning, Curation, Big Data Tools
 
@@ -58,3 +59,5 @@ Repository for CS520 course with links for tools and additional information, and
 * **SparkSQL**: https://spark.apache.org/
 
 # Student Projects
+
+## Spring 2022
