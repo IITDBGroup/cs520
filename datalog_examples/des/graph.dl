@@ -1,0 +1,11 @@
+% a directed graph
+g(a,a).
+g(a,b).
+g(b,c).
+
+% transitive closure
+tc(X,Y) :- g(X,Y).
+tc(X,Y) :- tc(X,Z), g(Z,Y).
+
+% reverse reachable
+rev_tc(X,Y) :- tc(Y,X).

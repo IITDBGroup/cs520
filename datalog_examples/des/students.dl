@@ -1,0 +1,24 @@
+% students
+student(peter).
+student(bob).
+student(alice).
+
+% classes
+class(cs520,cs).
+class(cs425,cs).
+class(cs536,cs).
+class(bio101,bio).
+
+% registration
+takes(alice,cs520).
+takes(alice,cs425).
+takes(alice,cs536).
+
+takes(bob,bio101).
+takes(peter,bio101).
+takes(peter,cs425).
+
+% students taking all class from a major (double negation)
+major(M) :- class(_,M).
+missing_class(S,M) :- student(S), class(C,M), not takes(S,C).
+takes_all(S,M) :- student(S), major(M), not missing_class(S,M).

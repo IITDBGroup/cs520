@@ -1,0 +1,43 @@
+% some train connections
+train(chicago,seattle).
+train(seattle,san_fransisco).
+train(san_fransisco,sacramento).
+train(chicago,ny).
+train(ny,boston).
+train(boston,philadelphia).
+train(anchorage,white_horse).
+
+% all cities that have train connections
+city(X) :- train(X,Y).
+city(X) :- train(Y,X).
+
+% reachable with two rides
+thop(X,Y) :- train(X,Z), train(Z,Y).
+
+% reachable with up to two rides
+up2hop(X,Y) :- train(X,Y).
+up2hop(X,Y) :- thop(X,Y).
+
+% reachable with 2 stop (3 rides)
+threehop(X,Y) :- train(X,Z), thop(Z,Y).
+
+% reachable with up to three rides
+up3hop(X,Y) :- up2hop(X,Y).
+up3hop(X,Y) :- threehop(X,Y).
+
+% pairs of cities reachable from each other via train
+bothdir(X,Y) :- train(X,Y).
+bothdir(X,Y) :- train(Y,X).
+
+reachable(X,Y) :- bothdir(X,Y).
+reachable(X,Y) :- reachable(X,Z), bothdir(Z,Y).
+
+% pairs of cities that are not reachable
+notreach(X,Y) :- city(X), city(Y), not reachable(X,Y).
+
+% shortest path, in DES scalar functions like addition are expressed as goals like this "X is e" where e refers to a bound variable
+reach_at(X,Y,1) :- train(X,Y).
+reach_at(X,Z,NO) :- reach_at(X,Y,N),
+                    train(Y,Z),
+                    NO is N+1,
+                    N < 10.

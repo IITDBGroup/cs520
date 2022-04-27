@@ -1,0 +1,34 @@
+% relation r
+r(1,1).
+r(1,2).
+r(2,3).
+r(4,2).
+
+% relation s
+s(2,2).
+s(2,3).
+
+% "projections" CQs
+q1(X) :- r(X,_).
+
+q2(Y) :- r(_,Y).
+
+q3(Y,X) :- r(X,Y).
+
+% "joins"
+q4(X,Y) :- r(X,X), r(X,Y).
+
+q5(X) :- r(X,X), r(X,Y), r(Y,Y).
+
+q6(X,Y) :- r(X,Y), s(X,_).
+
+% UCQs
+q7(X) :- r(X,_).
+q7(X) :- r(_,X).
+
+% recursion
+q8(X) :- r(X,_).
+q8(Y) :- q8(X), r(X,Y).
+
+% constants
+q9(X) :- r(X,2).
