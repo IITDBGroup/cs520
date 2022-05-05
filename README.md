@@ -1,5 +1,5 @@
 # cs520
-Repository for CS520 course with links for tools and additional information, and links to student curation projects.
+Repository for [CS520](http://www.cs.iit.edu/~glavic/cs520/) course with links for tools and additional information, and links to student curation projects.
 
 # Examples
 
