@@ -1,4 +1,4 @@
-# Running Vizier
+# Running Dockerized Vizier
 
 For the project we will use a docker installation of Vizier. If you are not familiar with docker, please install it on your system and learn how to download images and run containers.
 
@@ -10,7 +10,7 @@ You have to download the following image
 docker pull iitdbgroup/vizier_iit_cs520_fall23:intel
 ```
 
-Vizier stores all project files in a directory. You want this directory to be on your machine rather than in the docker container. Otherwise, all your projects will be deleted when the container is removed. This can be achieved by mounting a local directory on your machine into the container at the place where vizier stores its files. Let's first create such a directory, e.g.,
+**Vizier stores all project files in a directory. You want this directory to be on your machine rather than in the docker container. Otherwise, all your projects will be deleted when the container is removed.** This can be achieved by mounting a local directory on your machine into the container at the place where vizier stores its files. Let's first create such a directory, e.g.,
 
 ```sh
 mkdir ~/vizier-520-project-data
@@ -34,4 +34,10 @@ Otherwise, the command to start Vizier is the same as above.
 ```sh
 docker pull iitdbgroup/vizier_iit_cs520_fall23:arm
 ```
+
+# Using Vizier
+
+Detailed documentation for Vizier can be found here: [https://github.com/VizierDB/vizier-scala/wiki](https://github.com/VizierDB/vizier-scala/wiki)
+
+If you are familiar with Jupyter, you may have some trouble with using Vizier initially as it operates differently in several regards. Have a look at [https://github.com/VizierDB/vizier-scala/wiki/Migrating-from-Jupyter](https://github.com/VizierDB/vizier-scala/wiki/Migrating-from-Jupyter) to see where Vizier's notebook experience differs from Jupyter and why.
 
