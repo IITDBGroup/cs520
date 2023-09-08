@@ -1,6 +1,10 @@
 # cs520
 Repository for [CS520](http://www.cs.iit.edu/~glavic/cs520/) course with links for tools and additional information, and links to student curation projects.
 
+# Vizier
+
+- [Help on installing Vizier](vizier/README.md)
+
 # Examples
 
 - [Datalog with DLV and DES](datalog_examples/README.md)
