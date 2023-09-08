@@ -1,6 +1,8 @@
 # Running Dockerized Vizier
 
-For the project we will use a docker installation of Vizier. If you are not familiar with docker, please install it on your system and [https://docs.docker.com/get-started/overview/](learn how) to download images and run containers.
+For the project we will use a docker installation of Vizier. If you are not familiar with docker, please install it on your system and [learn how](https://docs.docker.com/get-started/overview/) to download images and run containers.
+
+
 
 ## Intel users
 
